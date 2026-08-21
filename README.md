@@ -91,15 +91,36 @@ python exercise_4/research_pipeline.py --demo
 
 ---
 
+### [Exercise 5: Build an Agent with the Claude Agent SDK](exercise_5/)
+
+**Domains:** Agentic Architecture & Orchestration (D1), Tool Design & MCP Integration (D2), Context Management & Reliability (D5)
+
+Implements a complete agentic loop demonstrating tool calling, error handling, session management, and subagent spawning patterns.
+
+| Concept | Implementation |
+|---------|---------------|
+| Agentic loop (stop_reason driven) | `tool_use` → execute tools → loop; `end_turn` → return |
+| Tool registration (decorator pattern) | `@register_tool` mimics `@beta_tool` from Tool Runner |
+| Error classification | Transient/validation/context_overflow with retry guidance |
+| Session management | Token tracking, 80% threshold, automatic compaction |
+| Subagent spawning | Coordinator decomposes → parallel subagents with explicit context |
+| Tool Runner hooks | `on_tool_call` (approval gate), `on_tool_result` (redaction) |
+
+```bash
+python exercise_5/exercise5_agent_sdk.py --demo
+```
+
+---
+
 ## Domain Coverage Matrix
 
-| Domain | Ex 1 | Ex 2 | Ex 3 | Ex 4 |
-|--------|:----:|:----:|:----:|:----:|
-| D1: Agentic Architecture & Orchestration | ✓ | | | ✓ |
-| D2: Tool Design & MCP Integration | ✓ | ✓ | | ✓ |
-| D3: Claude Code Configuration & Workflows | | ✓ | | |
-| D4: Prompt Engineering & Structured Output | | | ✓ | |
-| D5: Context Management & Reliability | ✓ | | ✓ | ✓ |
+| Domain | Ex 1 | Ex 2 | Ex 3 | Ex 4 | Ex 5 |
+|--------|:----:|:----:|:----:|:----:|:----:|
+| D1: Agentic Architecture & Orchestration | ✓ | | | ✓ | ✓ |
+| D2: Tool Design & MCP Integration | ✓ | ✓ | | ✓ | ✓ |
+| D3: Claude Code Configuration & Workflows | | ✓ | | | |
+| D4: Prompt Engineering & Structured Output | | | ✓ | | |
+| D5: Context Management & Reliability | ✓ | | ✓ | ✓ | ✓ |
 
 ## Running the Exercises
 
@@ -109,6 +130,7 @@ All exercises have a `--demo` mode that simulates the pipeline without needing a
 python exercise_1/exercise1_multi_tool_agent.py --demo
 python exercise_3/extraction_pipeline.py --demo
 python exercise_4/research_pipeline.py --demo
+python exercise_5/exercise5_agent_sdk.py --demo
 ```
 
 For live mode (calls the Claude API):
@@ -118,6 +140,7 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 python exercise_1/exercise1_multi_tool_agent.py
 python exercise_3/extraction_pipeline.py
 python exercise_4/research_pipeline.py
+python exercise_5/exercise5_agent_sdk.py
 ```
 
 Exercise 2 is a configuration reference (no executable script) — study the file structure and rules.
@@ -126,11 +149,13 @@ Exercise 2 is a configuration reference (no executable script) — study the fil
 
 | Pattern | Where it appears |
 |---------|-----------------|
-| **Agentic loop** (stop_reason check) | Ex 1, Ex 4 |
-| **Structured errors** (category + retryable) | Ex 1, Ex 3, Ex 4 |
-| **Hard guardrails** (programmatic hooks) | Ex 1 (escalation), Ex 2 (allowed-tools) |
-| **Parallel execution** | Ex 4 (subagents), Ex 3 (batch API) |
+| **Agentic loop** (stop_reason check) | Ex 1, Ex 4, Ex 5 |
+| **Structured errors** (category + retryable) | Ex 1, Ex 3, Ex 4, Ex 5 |
+| **Hard guardrails** (programmatic hooks) | Ex 1 (escalation), Ex 2 (allowed-tools), Ex 5 (Tool Runner hooks) |
+| **Parallel execution** | Ex 4 (subagents), Ex 3 (batch API), Ex 5 (subagent spawning) |
 | **Provenance tracking** | Ex 3 (source attribution), Ex 4 (finding_ids) |
-| **Graceful degradation** | Ex 3 (retry loop), Ex 4 (partial results) |
-| **Context isolation** | Ex 2 (fork context), Ex 4 (no inheritance) |
+| **Graceful degradation** | Ex 3 (retry loop), Ex 4 (partial results), Ex 5 (error classification) |
+| **Context isolation** | Ex 2 (fork context), Ex 4 (no inheritance), Ex 5 (subagent sessions) |
 | **Conflict handling** | Ex 4 (contested findings), Ex 3 (validation errors) |
+| **Session management** | Ex 5 (token tracking + compaction) |
+| **Tool Runner pattern** | Ex 5 (decorator registration + SDK-managed loop) |
