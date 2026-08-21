@@ -112,15 +112,38 @@ python exercise_5/exercise5_agent_sdk.py --demo
 
 ---
 
+### [Exercise 6: Configure Claude Code for a Real Project](exercise_6/)
+
+**Domains:** Claude Code Configuration & Workflows (D3), Tool Design & MCP Integration (D2)
+
+Configures a complete Claude Code project for a SaaS analytics platform, demonstrating the full configuration hierarchy with real-world patterns.
+
+| Concept | Implementation |
+|---------|---------------|
+| CLAUDE.md (universal standards) | Python/TS conventions, security rules, plan mode guidance |
+| Path-specific rules (4 files) | API layer, workers, testing, frontend — each with glob patterns |
+| Custom skills (3 skills) | `/run-pipeline`, `/deploy-preview`, `/generate-migration` |
+| `context: fork` isolation | Skills run in separate context windows |
+| `allowed-tools` restriction | `/deploy-preview` has NO Write access (hard guardrail) |
+| MCP server integration (3 servers) | PostgreSQL, GitHub, Sentry with `${ENV_VAR}` expansion |
+
+**Key files:**
+- `exercise_6/CLAUDE.md` — Universal project standards
+- `exercise_6/.claude/rules/` — 4 path-specific rule files
+- `exercise_6/.claude/skills/` — 3 skills with varying tool restrictions
+- `exercise_6/.mcp.json` — 3 MCP servers with env var expansion
+
+---
+
 ## Domain Coverage Matrix
 
-| Domain | Ex 1 | Ex 2 | Ex 3 | Ex 4 | Ex 5 |
-|--------|:----:|:----:|:----:|:----:|:----:|
-| D1: Agentic Architecture & Orchestration | ✓ | | | ✓ | ✓ |
-| D2: Tool Design & MCP Integration | ✓ | ✓ | | ✓ | ✓ |
-| D3: Claude Code Configuration & Workflows | | ✓ | | | |
-| D4: Prompt Engineering & Structured Output | | | ✓ | | |
-| D5: Context Management & Reliability | ✓ | | ✓ | ✓ | ✓ |
+| Domain | Ex 1 | Ex 2 | Ex 3 | Ex 4 | Ex 5 | Ex 6 |
+|--------|:----:|:----:|:----:|:----:|:----:|:----:|
+| D1: Agentic Architecture & Orchestration | ✓ | | | ✓ | ✓ | |
+| D2: Tool Design & MCP Integration | ✓ | ✓ | | ✓ | ✓ | ✓ |
+| D3: Claude Code Configuration & Workflows | | ✓ | | | | ✓ |
+| D4: Prompt Engineering & Structured Output | | | ✓ | | | |
+| D5: Context Management & Reliability | ✓ | | ✓ | ✓ | ✓ | |
 
 ## Running the Exercises
 
@@ -132,6 +155,8 @@ python exercise_3/extraction_pipeline.py --demo
 python exercise_4/research_pipeline.py --demo
 python exercise_5/exercise5_agent_sdk.py --demo
 ```
+
+Exercise 6 is a configuration reference (no executable script) — study the file structure, rules, skills, and MCP config.
 
 For live mode (calls the Claude API):
 
